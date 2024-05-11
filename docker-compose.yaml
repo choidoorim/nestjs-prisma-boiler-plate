@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  db:
+    image: mysql:8.0
+    container_name: nestjs-boiler-plate-db-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_DATABASE: 'nestjs-boiler-plate'
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+    ports:
+      - '3306:3306'
+    networks:
+      - nestjs-boiler-plate
+networks:
+  nestjs-boiler-plate:
+    name: nestjs-boiler-plate-network
+    driver: bridge

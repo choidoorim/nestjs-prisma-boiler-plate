@@ -2,8 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { APP_FILTER } from '@nestjs/core';
 
+import { AllExceptionFilter } from '@common/filter';
+import { PrismaModule } from '@lib/prisma';
+
 import { HealthModule } from './health/health.module';
-import { AllExceptionFilter } from './common/filter';
 
 @Module({
   imports: [
@@ -11,6 +13,7 @@ import { AllExceptionFilter } from './common/filter';
       envFilePath: `environment/.env.${process.env.NODE_ENV}`,
       isGlobal: true,
     }),
+    PrismaModule,
     HealthModule,
   ],
   providers: [

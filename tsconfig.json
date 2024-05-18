@@ -14,6 +14,20 @@
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "@common": [
+        "src/common",
+      ],
+      "@common/*": [
+        "src/common/*"
+      ],
+      "@lib": [
+        "src/lib"
+      ],
+      "@lib/*": [
+        "src/lib/*"
+      ]
+    }
   }
 }

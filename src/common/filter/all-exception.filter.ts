@@ -1,8 +1,9 @@
 import { ArgumentsHost, Catch, HttpStatus, Logger } from '@nestjs/common';
 import type { Request, Response } from 'express';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
 
-import { ErrorResponseDto } from '../dto';
-import { ApplicationException } from '../exception';
+import { ApplicationException } from '@common/exception';
+import { ErrorResponseDto } from '@common/dto';
 
 @Catch()
 export class AllExceptionFilter {
@@ -26,9 +27,13 @@ export class AllExceptionFilter {
     exception: unknown,
     httpStatus: number,
   ): ErrorResponseDto {
-    Logger.error(exception instanceof Error ? exception.message : exception);
+    Logger.error(exception);
 
     if (exception instanceof ApplicationException) {
+      return new ErrorResponseDto(exception.code, httpStatus);
+    }
+
+    if (exception instanceof PrismaClientKnownRequestError) {
       return new ErrorResponseDto(exception.code, httpStatus);
     }
 

@@ -1,8 +1,9 @@
-import { Module } from '@nestjs/common';
+import { Module, ValidationPipe } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_FILTER } from '@nestjs/core';
+import { APP_FILTER, APP_PIPE } from '@nestjs/core';
 
 import { AllExceptionFilter } from '@common/filter';
+import validationPipeExceptionFactory from '@common/exception/factory/validation-exception.factory';
 import { PrismaModule } from '@lib/prisma';
 
 import { HealthModule } from './health/health.module';
@@ -20,6 +21,15 @@ import { HealthModule } from './health/health.module';
     {
       provide: APP_FILTER,
       useClass: AllExceptionFilter,
+    },
+    {
+      provide: APP_PIPE,
+      useValue: new ValidationPipe({
+        whitelist: true,
+        forbidNonWhitelisted: true,
+        transform: true,
+        exceptionFactory: validationPipeExceptionFactory,
+      }),
     },
   ],
 })
